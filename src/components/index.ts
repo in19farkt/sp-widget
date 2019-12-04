@@ -1,6 +1,8 @@
+export { default as AppBar } from '@material-ui/core/AppBar';
 export { default as Box } from '@material-ui/core/Box';
 export { default as Button } from '@material-ui/core/Button';
 export { default as CircularProgress } from '@material-ui/core/CircularProgress';
+export { default as Container } from '@material-ui/core/Container';
 export { default as CssBaseline } from '@material-ui/core/CssBaseline';
 export { default as Dialog } from '@material-ui/core/Dialog';
 export { default as DialogActions } from '@material-ui/core/DialogActions';
@@ -8,6 +10,11 @@ export { default as DialogContent } from '@material-ui/core/DialogContent';
 export { default as DialogContentText } from '@material-ui/core/DialogContentText';
 export { default as DialogTitle } from '@material-ui/core/DialogTitle';
 export { default as Grid } from '@material-ui/core/Grid';
+export { default as MenuItem } from '@material-ui/core/MenuItem';
+export { default as Tab } from '@material-ui/core/Tab';
+export { default as Tabs } from '@material-ui/core/Tabs';
+export { default as TextField } from '@material-ui/core/TextField';
+export { default as Toolbar } from '@material-ui/core/Toolbar';
 export { default as Typography } from '@material-ui/core/Typography';
 
 export * from './ErrorBoundary';

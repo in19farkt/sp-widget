@@ -12,7 +12,7 @@ export function Root(): React.ReactElement<{}> {
 
   return (
     <ErrorBoundary>
-      <BrowserRouter>
+      <BrowserRouter basename="/sp">
         <Snackbar>
           <MuiThemeProvider theme={theme}>
             <ApiContext.Provider value={api}>

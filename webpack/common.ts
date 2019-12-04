@@ -25,7 +25,7 @@ const config: webpack.Configuration = {
   context: path.resolve(__dirname, '..', 'src'),
   entry: path.resolve(__dirname, '..', 'src', 'index.tsx'),
   output: {
-    publicPath: '/',
+    publicPath: '/sp',
     path: path.resolve(__dirname, '..', 'build'),
     filename: `js/[name]-[hash].bundle.js`,
     chunkFilename: `js/[name]-[hash].bundle.js`,
