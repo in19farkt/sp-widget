@@ -2,6 +2,7 @@ import * as React from 'react';
 import XLSX from 'xlsx';
 
 import { Grid, Typography } from 'components';
+import { readFile, calculateName, calculateDescription, savePriceAsCSV } from 'utils/price';
 
 type Palto = {
   Артикул: string;
@@ -60,16 +61,17 @@ export function PaltoPenza() {
       }));
 
       const resultSheet = XLSX.utils.json_to_sheet(resultJson, { skipHeader: true });
-      wb.Sheets.Sheet1 = resultSheet;
+      const resultWb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(resultWb, resultSheet, 'Sheet1');
 
-      savePriceAsCSV(wb, 'Пальто Пенза');
+      savePriceAsCSV(resultWb, 'Пальто Пенза');
     })();
   }, [price]);
 
   return (
     <Grid container spacing={2}>
       <Grid item>
-        <Typography>Выгрузка Turbo.Parser:</Typography>
+        <Typography>Выгрузка Turbo.Parser (.xls):</Typography>
       </Grid>
       <Grid item>
         <input type="file" onChange={handleFileSelect} accept=".csv,.xlsx" />
@@ -77,10 +79,6 @@ export function PaltoPenza() {
       <Grid item />
     </Grid>
   );
-}
-
-function savePriceAsCSV(wb: XLSX.WorkBook, name: string) {
-  XLSX.writeFile(wb, `${new Date().toLocaleDateString()} - ${name} - Прайс.xlsx`);
 }
 
 const translateByCategory = {
@@ -91,10 +89,6 @@ const translateByCategory = {
   plashchi: 'Плащи',
   rasprodazha: 'Распродажа',
 };
-
-function calculateName(name: string) {
-  return name.replace(/"/g, '');
-}
 
 function calculateCategory(link: string) {
   const category = link.replace(
@@ -115,29 +109,4 @@ function calculateSizes(sizes: string | number) {
   return String(sizes)
     .replace(/\//g, '-')
     .replace(/;/g, '/');
-}
-
-function calculateDescription(desc: string) {
-  const fractionSlash = '⁄';
-  const maxDescriptionLength = 2500;
-  return desc.replace(/\//g, ` ${fractionSlash} `).slice(0, maxDescriptionLength);
-}
-
-async function readFile(file: File): Promise<XLSX.WorkBook> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onabort = reject;
-    reader.onerror = reject;
-
-    reader.onload = event => {
-      if (!event.target?.result || typeof event.target.result === 'string') {
-        return reject(new Error('File parsing failed'));
-      }
-
-      return resolve(XLSX.read(event.target.result, { type: 'buffer', codepage: 1251 }));
-    };
-
-    reader.readAsArrayBuffer(file);
-  });
 }

@@ -18,6 +18,10 @@ const options = [
     label: 'Пальто Пенза',
   },
   {
+    value: 'optolider',
+    label: 'ОптоЛидер',
+  },
+  {
     value: 'saks',
     label: 'САКС Игрушки',
   },

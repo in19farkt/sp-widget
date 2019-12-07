@@ -7,6 +7,7 @@ import { routes } from 'app/routes';
 import { PaltoPenza } from './PaltoPenza';
 import { Menu } from './Menu';
 import { Saks } from './Saks';
+import { OptoLider } from './OptoLider';
 
 export function PricePage() {
   return (
@@ -27,6 +28,11 @@ export function PricePage() {
             exact
             path={routes.price.supplier.getRedirectPath({ supplier: 'palto-penza' })}
             component={PaltoPenza}
+          />
+          <Route
+            exact
+            path={routes.price.supplier.getRedirectPath({ supplier: 'optolider' })}
+            component={OptoLider}
           />
           <Route
             exact
