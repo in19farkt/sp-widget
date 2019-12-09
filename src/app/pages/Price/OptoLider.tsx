@@ -70,7 +70,8 @@ export function OptoLider() {
 
           return index !== -1 ? partsResultJson.splice(index, 1)[0] : product;
         })
-        .concat(partsResultJson);
+        .concat(partsResultJson)
+        .filter(product => !!product[Column.Price]);
 
       const resultSheet = XLSX.utils.json_to_sheet(allResultJson, { skipHeader: true });
 
