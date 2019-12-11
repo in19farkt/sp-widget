@@ -3,7 +3,13 @@ import XLSX from 'xlsx';
 import { uniqWith } from 'ramda';
 
 import { Grid, Typography } from 'components';
-import { readFile, calculateName, calculateDescription, savePriceAsCSV } from 'utils/price';
+import {
+  readFile,
+  calculateName,
+  calculateDescription,
+  savePriceAsCSV,
+  calculateFeatures,
+} from 'utils/price';
 
 type Product = {
   Ссылка: string;
@@ -100,6 +106,8 @@ export function OptoLider() {
   );
 }
 
+const featuresFilterRegExp = /^(Дропшиппинг|от \d+? шт).+$/i;
+
 function calcResultJson(wb: XLSX.WorkBook) {
   const json = XLSX.utils.sheet_to_json<Product>(wb.Sheets[wb.SheetNames[0]]);
 
@@ -110,7 +118,7 @@ function calcResultJson(wb: XLSX.WorkBook) {
     [Column.Category]: item['Название раздела'],
     [Column.Color]: calculateColor(item['ЦВЕТ'] || ''),
     [Column.Description]: calculateDescription(item['Описание'] || ''),
-    [Column.Features]: calculateFeatures(item['Все характеристики'] || ''),
+    [Column.Features]: calculateFeatures(item['Все характеристики'] || '', featuresFilterRegExp),
     [Column.Images]: item['Изображение'],
   }));
 
@@ -123,13 +131,4 @@ function calculateVendorCode(link: string) {
 
 function calculateColor(color: string) {
   return color.replace(/,/g, '/');
-}
-
-const featuresFilterRegExp = /^(Дропшиппинг|от \d+? шт).+$/;
-
-function calculateFeatures(value: string) {
-  return value
-    .split('\n')
-    .filter(item => !featuresFilterRegExp.test(item))
-    .join('; ');
 }

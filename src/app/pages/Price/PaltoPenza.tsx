@@ -37,6 +37,8 @@ enum Column {
 
 type ResultPalto = Record<Column, string | number>;
 
+const featuresFilterRegExp = /^(размер:|цвет:).+$/i;
+
 export function PaltoPenza() {
   const [price, setPrice] = React.useState<File | null>(null);
 
@@ -61,7 +63,7 @@ export function PaltoPenza() {
         [Column.Category]: calculateCategory(item['Ссылка']),
         [Column.Sizes]: calculateSizes(item['РАЗМЕР']),
         [Column.Color]: item['ЦВЕТ'],
-        [Column.Features]: calculateFeatures(item['Все характеристики']),
+        [Column.Features]: calculateFeatures(item['Все характеристики'], featuresFilterRegExp),
         [Column.Description]: calculateDescription(item['Описание'] || ''),
         [Column.Images]: item['Изображение'],
       }));
