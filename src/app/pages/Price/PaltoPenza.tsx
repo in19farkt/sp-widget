@@ -2,7 +2,13 @@ import * as React from 'react';
 import XLSX from 'xlsx';
 
 import { Grid, Typography } from 'components';
-import { readFile, calculateName, calculateDescription, savePriceAsCSV } from 'utils/price';
+import {
+  readFile,
+  calculateName,
+  calculateDescription,
+  savePriceAsCSV,
+  calculateFeatures,
+} from 'utils/price';
 
 type Palto = {
   Артикул: string;
@@ -24,7 +30,7 @@ enum Column {
   Category,
   Sizes,
   Color,
-  Structure,
+  Features,
   Description,
   Images,
 }
@@ -55,7 +61,7 @@ export function PaltoPenza() {
         [Column.Category]: calculateCategory(item['Ссылка']),
         [Column.Sizes]: calculateSizes(item['РАЗМЕР']),
         [Column.Color]: item['ЦВЕТ'],
-        [Column.Structure]: item['СОСТАВ'],
+        [Column.Features]: calculateFeatures(item['Все характеристики']),
         [Column.Description]: calculateDescription(item['Описание'] || ''),
         [Column.Images]: item['Изображение'],
       }));
@@ -71,10 +77,10 @@ export function PaltoPenza() {
   return (
     <Grid container spacing={2}>
       <Grid item>
-        <Typography>Выгрузка Turbo.Parser (.xls):</Typography>
+        <Typography>Выгрузка Turbo.Parser (.csv):</Typography>
       </Grid>
       <Grid item>
-        <input type="file" onChange={handleFileSelect} accept=".csv,.xlsx" />
+        <input type="file" onChange={handleFileSelect} accept=".csv" />
       </Grid>
       <Grid item />
     </Grid>
